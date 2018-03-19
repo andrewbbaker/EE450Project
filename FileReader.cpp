@@ -24,7 +24,6 @@ void FileReader::read(string fileName) {
     string nextLine;
 
     while (getline(file, nextLine)) {
-//        file >> nextLine;
         vector<string> wordDefinition = split(nextLine, SPLITTING_CHARACTERS);
         cout << wordDefinition[0] << " - " << wordDefinition[1] << endl;
     }
@@ -39,12 +38,6 @@ void FileReader::read(string fileName, ::Dictionary dictionary) {
     while (getline(file, nextLine)) {
         vector<string> wordDefinition = split(nextLine, SPLITTING_CHARACTERS);
         dictionary.put(wordDefinition[0], wordDefinition[1]);
-    }
-
-    set<string*> *allWords = dictionary.suffix("");
-
-    for (string* word : *allWords) {
-        cout << *word << " - " << *dictionary.get(*word) << endl;
     }
 }
 

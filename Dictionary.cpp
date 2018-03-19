@@ -18,7 +18,7 @@ Dictionary ::~Dictionary() {
 
 }
 
-bool Dictionary :: put(string &word, string &definition) {
+bool Dictionary :: put(string word, string definition) {
     return put(word, definition, word.size());
 }
 
@@ -27,8 +27,10 @@ bool Dictionary :: put(string &word, string &definition, int currentIndex) {
         bool wordExists = this -> word != nullptr;
         this -> word = new string(word);
         this -> definition = new string(definition);
-        if (!wordExists) {
+        if (wordExists == false) {
             size++;
+        } else {
+            int a = 0;
         }
         return wordExists;
     }
@@ -40,9 +42,28 @@ bool Dictionary :: put(string &word, string &definition, int currentIndex) {
     }
 
     bool wordExists = dictionaries[currentLetterIndex] -> put(word, definition, currentIndex);
-    if (!wordExists) {
+    if (wordExists == false) {
         size++;
     }
+    return wordExists;
+}
+
+bool Dictionary::contains(string word) {
+    return contains(word, word.size());
+}
+
+bool Dictionary::contains(string & word, int currentIndex) {
+    if (currentIndex == 0) {
+        return true;
+    }
+
+    currentIndex -= 1;
+    int currentLetterIndex = getLetterIndex(word[currentIndex]);
+    if (dictionaries[currentLetterIndex] == nullptr) {
+        return false;
+    }
+
+    return dictionaries[currentLetterIndex] -> get(word, currentIndex);
 }
 
 string* Dictionary :: get(string word) {
@@ -123,6 +144,21 @@ void Dictionary :: addAllSuffixes(set<string*> *suffixes) {
             dictionaries[i] -> addAllSuffixes(suffixes);
         }
     }
+}
+
+set<string *> *Dictionary::getAllTypos(string word) {
+    string* wordCopy = new string(word);
+    set<string*>* words = new set<string*>();
+    for (int index = 0; index < word.size(); index++) {
+        for (int letter = 0; letter < DICTIONARY_SIZE; letter++) {
+            (*wordCopy)[index] = getLetterFromIndex(letter);
+            if (contains(*wordCopy)) {
+                words->insert(new string(*wordCopy));
+            }
+        }
+        (*wordCopy)[index] = word.at(index);
+    }
+    return words;
 }
 
 long Dictionary::getSize() {

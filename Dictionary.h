@@ -21,6 +21,7 @@ private:
     Dictionary** dictionaries;
     static const int DICTIONARY_SIZE = 57;
     bool put(string &, string &, int);
+    bool contains(string &, int);
     string* get(string &, int);
     string* remove(string &, int);
     int getLetterIndex(char);
@@ -31,11 +32,14 @@ private:
 public:
     Dictionary();
     ~Dictionary();
-    bool put(string &, string &);
+    bool put(string, string);
+    bool contains(string);
     string* get(string);
     string* remove(string);
     set<string*>* suffix(string);
     long getSize();
+    set<string*>* getAllTypos(string);
+
 };
 
 
